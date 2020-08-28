@@ -44,6 +44,65 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
+    const {
+      company,
+      website,
+      location,
+      bio,
+      status,
+      githubusername,
+      skills,
+      youtube,
+      facebook,
+      twitter,
+      instragram,
+      linkedin,
+    } = req.body;
+
+    //Bulid profile object
+    const profileFileds = {};
+    profileFileds.user = req.user.id;
+    if (company) profileFileds.company = company;
+    if (website) profileFileds.website = website;
+    if (location) profileFileds.location = location;
+    if (bio) profileFildes.bio = bio;
+    if (status) profileFileds.status = status;
+    if (githubusername) profileFileds.githubusername = githubusername;
+    if (skills) {
+      //fomat string to array
+      profileFileds.skills = skills.split(",").map((skill) => skill.trim());
+    }
+
+    //Bulid social object
+    profileFileds.social = {};
+    if (youtube) profileFileds.social.youtube = youtube;
+    if (facebook) profileFileds.social.facebook = facebook;
+    if (twitter) profileFileds.social.twitter = twitter;
+    if (instragram) profileFileds.social.instragram = instragram;
+    if (linkedin) profileFileds.social.linkedin = linkedin;
+
+    try {
+      let profile = await Profile.findOne({ user: req.user.id });
+
+      if (profile) {
+        //update
+        profile = await Profile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileFileds },
+          { new: true }
+        );
+        return res.json(profile);
+      }
+
+      //create
+      profile = new Profile(profileFileds);
+      await profile.save();
+      return res.json(profile);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Server Error");
+    }
   }
 );
 
