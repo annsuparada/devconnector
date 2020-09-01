@@ -19,7 +19,7 @@ router.get("/me", auth, async (req, res) => {
       return res.status(400).json({ msg: "There is no profile for this user" });
     }
 
-    res.json(profile);
+    return res.json(profile);
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error");
@@ -29,7 +29,6 @@ router.get("/me", auth, async (req, res) => {
 // @route   POST api/profile
 // @desc    Create profile
 // @access  Private
-
 router.post(
   "/",
   [
@@ -56,7 +55,7 @@ router.post(
       youtube,
       facebook,
       twitter,
-      instragram,
+      instagram,
       linkedin,
     } = req.body;
 
@@ -79,7 +78,7 @@ router.post(
     if (youtube) profileFileds.social.youtube = youtube;
     if (facebook) profileFileds.social.facebook = facebook;
     if (twitter) profileFileds.social.twitter = twitter;
-    if (instragram) profileFileds.social.instragram = instragram;
+    if (instagram) profileFileds.social.instagram = instagram;
     if (linkedin) profileFileds.social.linkedin = linkedin;
 
     try {
@@ -105,5 +104,18 @@ router.post(
     }
   }
 );
+
+// @route   GET api/profile
+// @desc    Get all profiles
+// @access  Public
+router.get("/", async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    res.json(profiles);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+});
 
 module.exports = router;
