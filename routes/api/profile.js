@@ -137,4 +137,22 @@ router.get("/user/:user_id", async (req, res) => {
   }
 });
 
+// @route   DELETE api/profile
+// @desc    Delete profile, user & posts
+// @access  Provate
+
+// we don't need user id because we have token by using auth middlewere
+router.delete("/", auth, async (req, res) => {
+  try {
+    //remove profile
+    await Profile.findOneAndDelete({ user: req.user.id });
+    //remove user
+    await User.findOneAndDelete({ _id: req.user.id });
+    res.json({ msg: "User delered" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
