@@ -5,6 +5,8 @@ import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Alert from "./components/layout/Alert";
+import Dashboard from "./components/dashboard/Dashboard";
+import PrivateRoute from "./components/routhing/PrivateRoute";
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
 //redux
@@ -31,8 +33,9 @@ const App = () => {
           <section className="container">
             <Alert />
             <Switch>
-              <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
             </Switch>
           </section>
         </>
