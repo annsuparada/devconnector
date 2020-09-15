@@ -11,7 +11,7 @@ const Login = ({ login, isAuthenticated }) => {
 
   const { email, password } = formData;
 
-  const onChang = (e) => {
+  const onChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -40,7 +40,7 @@ const Login = ({ login, isAuthenticated }) => {
             placeholder="Email Address"
             name="email"
             value={email}
-            onChange={(e) => onChang(e)}
+            onChange={(e) => onChange(e)}
             required
           />
         </div>
@@ -51,7 +51,7 @@ const Login = ({ login, isAuthenticated }) => {
             name="password"
             minLength="6"
             value={password}
-            onChange={(e) => onChang(e)}
+            onChange={(e) => onChange(e)}
             required
           />
         </div>

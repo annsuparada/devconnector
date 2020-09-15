@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setAlert } from "./alert";
+// import { setAlert } from "./alert";
 import { GET_PROFILE, PROFILE_ERROR } from "./types";
 
 const URL = "http://localhost:5000";
@@ -13,9 +13,10 @@ export const getCurrentProfile = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    console.log(err.response);
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: err.response,
     });
   }
 };

@@ -1,6 +1,5 @@
 const express = require("express");
 const request = require("request");
-const config = require("config");
 const router = express.Router();
 const auth = require("../../middlewere/auth");
 const { check, validationResult } = require("express-validator");

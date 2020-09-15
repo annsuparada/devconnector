@@ -15,7 +15,7 @@ router.get("/", auth, async (req, res) => {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch (err) {
-    console.log(err);
+    console.log("BE", err);
     res.status(500).send("Server Error");
   }
 });
@@ -63,7 +63,7 @@ router.post(
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
-        { expiresIn: 360000 },
+        { expiresIn: 36000000 },
         (err, token) => {
           if (err) throw err;
           res.json({ token });
