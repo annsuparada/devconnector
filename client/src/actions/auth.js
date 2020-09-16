@@ -16,8 +16,8 @@ const URL = "http://localhost:5000";
 
 //Load user
 export const loadUser = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
+  if (localStorage.getItem("token")) {
+    setAuthToken(localStorage.getItem("token"));
   }
 
   try {
@@ -28,7 +28,7 @@ export const loadUser = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log("FE", err.response);
+    console.log(err);
     dispatch({
       type: AUTH_ERROR,
     });
