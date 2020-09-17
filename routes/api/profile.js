@@ -6,6 +6,7 @@ const { check, validationResult } = require("express-validator");
 
 const Profile = require("../../modules/Profile");
 const User = require("../../modules/User");
+const Post = require("../../modules/Posts");
 
 // @route   GET api/profile/me
 // @desc    Get current user profile
@@ -145,6 +146,8 @@ router.get("/user/:user_id", async (req, res) => {
 // we don't need user id because we have token by using auth middlewere
 router.delete("/", auth, async (req, res) => {
   try {
+    //remove user posts
+    await Post.deleteMany({ user: req.user.id });
     //remove profile
     await Profile.findOneAndDelete({ user: req.user.id });
     //remove user
