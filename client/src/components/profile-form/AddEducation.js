@@ -79,6 +79,7 @@ const AddEducation = ({ addEducation, history }) => {
             name="from"
             value={from}
             onChange={(e) => onChange(e)}
+            required
           />
         </div>
         <div className="form-group">
