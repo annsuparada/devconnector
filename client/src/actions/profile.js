@@ -6,7 +6,7 @@ import {
   PROFILE_ERROR,
   UPDATE_PROFILE,
   ACCOUNT_DELETED,
-  CLEAR_PROFILE,
+  // CLEAR_PROFILE,
   GET_REPOS,
 } from "./types";
 
@@ -66,7 +66,7 @@ export const getProfileById = (userId) => async (dispatch) => {
 };
 
 //get github repos
-export const getGitHubRepos = (username) => async (dispatch) => {
+export const getGithubRepos = (username) => async (dispatch) => {
   try {
     const res = await axios.get(`${URL}/api/profile/github/${username}`);
 
