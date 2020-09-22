@@ -2,7 +2,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
-  AUTH_ERROR,
+  // AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
@@ -36,8 +36,8 @@ export default function (state = initialState, action) {
         isAuthenticated: true,
         loading: false,
       };
+    // case AUTH_ERROR:
     case REGISTER_FAIL:
-    case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT:
     case ACCOUNT_DELETED:
