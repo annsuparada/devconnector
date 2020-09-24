@@ -8,6 +8,8 @@ import {
   ADD_POST,
   CONSOLE_LOG_ERROR,
   GET_POST,
+  ADD_COMMENT,
+  REMOVE_COMMENT,
 } from "./types";
 
 const URL = "http://localhost:5000";
@@ -159,7 +161,7 @@ export const addPost = (formData) => async (dispatch) => {
   }
 };
 
-//Get a posts
+//Get post by id
 export const getPost = (postId) => async (dispatch) => {
   try {
     const res = await axios.get(`${URL}/api/posts/${postId}`);
@@ -167,6 +169,75 @@ export const getPost = (postId) => async (dispatch) => {
       type: GET_POST,
       payload: res.data,
     });
+  } catch (err) {
+    if (err.response) {
+      dispatch({
+        type: POST_ERROR,
+        payload: {
+          msg: err.response.statusText,
+          status: err.response.status,
+          data: err.response.data,
+        },
+      });
+    } else {
+      console.log(err);
+      dispatch({
+        type: CONSOLE_LOG_ERROR,
+      });
+    }
+  }
+};
+
+//add comment
+export const addComment = (postId, formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  try {
+    const res = await axios.post(
+      `${URL}/api/posts/comment/${postId}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: ADD_COMMENT,
+      payload: res.data,
+    });
+
+    dispatch(setAlert("Comment Added", "success"));
+  } catch (err) {
+    if (err.response) {
+      dispatch({
+        type: POST_ERROR,
+        payload: {
+          msg: err.response.statusText,
+          status: err.response.status,
+          data: err.response.data,
+        },
+      });
+    } else {
+      console.log(err);
+      dispatch({
+        type: CONSOLE_LOG_ERROR,
+      });
+    }
+  }
+};
+
+//delete comment
+export const deleteComment = (postId, commentId) => async (dispatch) => {
+  try {
+    await axios.delete(`${URL}/api/posts/comment/${postId}/${commentId}`);
+
+    dispatch({
+      type: REMOVE_COMMENT,
+      payload: commentId,
+    });
+
+    dispatch(setAlert("Comment Deleted", "success"));
   } catch (err) {
     if (err.response) {
       dispatch({
