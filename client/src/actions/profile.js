@@ -8,6 +8,7 @@ import {
   ACCOUNT_DELETED,
   // CLEAR_PROFILE,
   GET_REPOS,
+  CONSOLE_LOG_ERROR,
 } from "./types";
 
 const URL = "http://localhost:5000";
@@ -22,11 +23,21 @@ export const getCurrentProfile = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log(err.response);
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: err.response,
-    });
+    if (err.response) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: {
+          msg: err.response.statusText,
+          status: err.response.status,
+          data: err.response.data.errors,
+        },
+      });
+    } else {
+      console.log(err);
+      dispatch({
+        type: CONSOLE_LOG_ERROR,
+      });
+    }
   }
 };
 
@@ -39,11 +50,21 @@ export const getProfiles = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log("/api/profile", err.response);
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: err.response,
-    });
+    if (err.response) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: {
+          msg: err.response.statusText,
+          status: err.response.status,
+          data: err.response.data.errors,
+        },
+      });
+    } else {
+      console.log(err);
+      dispatch({
+        type: CONSOLE_LOG_ERROR,
+      });
+    }
   }
 };
 
@@ -57,11 +78,21 @@ export const getProfileById = (userId) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log(err.response);
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: err.response,
-    });
+    if (err.response) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: {
+          msg: err.response.statusText,
+          status: err.response.status,
+          data: err.response.data.errors,
+        },
+      });
+    } else {
+      console.log(err);
+      dispatch({
+        type: CONSOLE_LOG_ERROR,
+      });
+    }
   }
 };
 
@@ -75,10 +106,21 @@ export const getGithubRepos = (username) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: err.response,
-    });
+    if (err.response) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: {
+          msg: err.response.statusText,
+          status: err.response.status,
+          data: err.response.data.errors,
+        },
+      });
+    } else {
+      console.log(err);
+      dispatch({
+        type: CONSOLE_LOG_ERROR,
+      });
+    }
   }
 };
 
