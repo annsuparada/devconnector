@@ -9,6 +9,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_PROFILE,
+  CONSOLE_LOG_ERROR,
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -28,12 +29,14 @@ export const loadUser = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log(err.response);
-    console.log(err);
-
-    dispatch({
-      type: AUTH_ERROR,
-    });
+    if (err.response) {
+      dispatch({
+        type: AUTH_ERROR,
+      });
+    } else {
+      console.log(err);
+      dispatch({ type: CONSOLE_LOG_ERROR });
+    }
   }
 };
 
@@ -56,16 +59,21 @@ export const register = ({ name, email, password }) => async (dispatch) => {
     });
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
+    if (err.response) {
+      const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => {
-        dispatch(setAlert(error.msg, "danger"));
+      if (errors) {
+        errors.forEach((error) => {
+          dispatch(setAlert(error.msg, "danger"));
+        });
+      }
+      dispatch({
+        type: REGISTER_FAIL,
       });
+    } else {
+      console.log(err);
+      dispatch({ type: CONSOLE_LOG_ERROR });
     }
-    dispatch({
-      type: REGISTER_FAIL,
-    });
   }
 };
 
@@ -88,16 +96,21 @@ export const login = (email, password) => async (dispatch) => {
     });
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
+    if (err.response) {
+      const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => {
-        dispatch(setAlert(error.msg, "danger"));
+      if (errors) {
+        errors.forEach((error) => {
+          dispatch(setAlert(error.msg, "danger"));
+        });
+      }
+      dispatch({
+        type: LOGIN_FAIL,
       });
+    } else {
+      console.log(err);
+      dispatch({ type: CONSOLE_LOG_ERROR });
     }
-    dispatch({
-      type: LOGIN_FAIL,
-    });
   }
 };
 
